@@ -46,7 +46,7 @@ The application will be available at `http://localhost:3000`.
 
 This application consists of two primary routes:
 
-1. **`/login`** - A login page where users enter their email and token. These credentials are validated via the `api/auth` route, which returns a JWT token as a secure HTTP-only cookie upon successful authentication.
+1. **`/login`** - A login page where users enter their email and password (email - admin@gmail.com , password - admin). These credentials are validated via the `api/auth` route, which returns a JWT token as a secure HTTP-only cookie upon successful authentication.
 2. **`/admin`** - A protected route that displays sensitive administrative data, retrieved from `api/admin-data`.
 
 ### Authentication & Authorization Mechanism
@@ -62,12 +62,15 @@ Despite these protective measures, the application is vulnerable due to CVE-2025
 ## Exploitation
 
 - Attackers can craft requests to `api/admin-data` while including a specially crafted header, effectively bypassing token validation.
+
+x-middleware-subrequest: src/middleware:src/middleware:src/middleware:src/middleware:src/middleware
+
 - This vulnerability undermines the existing security model, allowing unauthorized access to sensitive data.
 
 ## Mitigation Strategies
 
 1. **Validate credentials in every API route that requires protection:** Do not rely solely on middleware for authentication checks—ensure server-side validation is performed within the API handler itself.
-2. **Upgrade to the latest Next.js version:** If this vulnerability has been patched in newer releases, updating to the latest stable version is strongly recommended.
+2. **Upgrade to the latest Next.js version:** This vulnerability has been patched in newer releases, updating to the latest stable version is strongly recommended.
 3. **Isolate backend and database services:** Although Next.js is a full-stack framework, it is best practice to separate backend and database operations into dedicated services while using Next.js primarily for frontend and Backend-for-Frontend (BFF) functionality.
 
 ## Contribution
